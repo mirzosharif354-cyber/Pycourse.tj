@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Воридшавӣ — MyCourse.tj{% endblock %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/auth.css' %}">{% endblock %}
+{% block content %}
+<div class="auth-wrap"><div class="auth-card">
+  <span class="auth-icon">🔑</span>
+  <h2 class="auth-title">Воридшавӣ</h2>
+  <p class="auth-sub">Ба MyCourse.tj хуш омадед!</p>
+  <form method="post" novalidate>{% csrf_token %}
+    <div class="fg"><label>Логин</label>{{form.username}}{% if form.username.errors %}<div class="fe">{{form.username.errors|join:" "}}</div>{% endif %}</div>
+    <div class="fg"><label>Парол</label>{{form.password}}{% if form.password.errors %}<div class="fe">{{form.password.errors|join:" "}}</div>{% endif %}</div>
+    {% if form.non_field_errors %}<div class="fe" style="margin-bottom:10px;font-size:13px;">{{form.non_field_errors|join:" "}}</div>{% endif %}
+    <button type="submit" class="btn btn-g btn-block" style="padding:13px;">🔑 Ворид шудан</button>
+  </form>
+  <div class="demo-hint">🛡 Намоиш: <b>admin</b> / <b>admin123</b></div>
+</div></div>
+{% endblock %}

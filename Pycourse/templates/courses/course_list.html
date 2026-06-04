@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Курсҳо — MyCourse.tj{% endblock %}
+{% block content %}
+<div style="max-width:1020px;margin:0 auto;padding:36px 22px;">
+  <h1 style="font-size:28px;font-weight:900;margin-bottom:6px;">📚 Ҳама курсҳо</h1>
+  <p style="color:var(--tl);font-size:14px;margin-bottom:28px;">Курси мувофиқро интихоб кун!</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;">
+    {% for c in courses %}
+    <div style="background:#fff;border:1.5px solid var(--bd);border-radius:16px;padding:22px;transition:all .2s;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--g1),var(--ga));"></div>
+      <span style="font-size:36px;display:block;margin-bottom:10px;">{{c.icon}}</span>
+      <span style="display:inline-block;background:var(--gl);color:var(--g2);font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px;text-transform:uppercase;margin-bottom:8px;">{{c.get_category_display}}</span>
+      {% if c.pk in enrolled_ids %}<span style="display:inline-block;background:var(--gl);color:var(--g2);font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px;margin-bottom:8px;margin-left:4px;">✅ Бақайд</span>{% endif %}
+      <h3 style="font-size:17px;font-weight:800;margin-bottom:7px;">{{c.title}}</h3>
+      <p style="font-size:13px;color:var(--tl);line-height:1.6;margin-bottom:14px;">{{c.description|truncatewords:18}}</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;">
+        <span style="font-size:12px;color:var(--tm);font-weight:700;">📹 {{c.total_videos}}</span>
+        <span style="font-size:12px;color:var(--tm);font-weight:700;">📝 {{c.total_tests}}</span>
+        <span style="font-size:12px;color:var(--tm);font-weight:700;">⏱ {{c.duration_hours}} соат</span>
+      </div>
+      <a href="{% url 'course_detail' c.pk %}" class="btn btn-g btn-block">{% if c.pk in enrolled_ids %}Давом деҳ →{% else %}Оғоз кун →{% endif %}</a>
+    </div>
+    {% empty %}<p style="color:var(--tl);grid-column:1/-1;text-align:center;padding:40px;">Курсҳо нестанд.</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

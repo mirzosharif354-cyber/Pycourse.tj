@@ -1,0 +1,27 @@
+{% extends 'base.html' %}{% block title %}Тестҳо — Admin{% endblock %}
+{% block content %}<div class="admin-wrap">
+{% with active='tests' %}{% include 'courses/admin_nav.html' %}{% endwith %}
+<div class="form-card"><h4>➕ Тести нав</h4>
+<form method="post">{% csrf_token %}<input type="hidden" name="action" value="add">
+<div class="row2">
+  <div class="fg"><label>Курс</label><select name="cid" class="inp">{% for c in courses %}<option value="{{c.pk}}">{{c.title}}</option>{% endfor %}</select></div>
+  <div class="fg"><label>Холҳо</label><input name="pts" class="inp" type="number" value="10" min="1"></div>
+</div>
+<div class="fg"><label>Савол</label><input name="question" class="inp" placeholder="Савол..." required></div>
+<div class="row2">
+  <div class="fg"><label>Ҷавоби А</label><input name="oa" class="inp" required></div>
+  <div class="fg"><label>Ҷавоби Б</label><input name="ob" class="inp" required></div>
+  <div class="fg"><label>Ҷавоби В</label><input name="oc" class="inp"></div>
+  <div class="fg"><label>Ҷавоби Г</label><input name="od" class="inp"></div>
+</div>
+<div class="fg"><label>Ҷавоби дуруст</label><select name="correct" class="inp"><option value="a">А</option><option value="b">Б</option><option value="c">В</option><option value="d">Г</option></select></div>
+<button type="submit" class="btn btn-g btn-sm">➕ Илова</button>
+</form></div>
+<div class="card"><h3 style="font-size:15px;font-weight:800;margin-bottom:14px;">📝 Тестҳо</h3>
+<table><tr><th>#</th><th>Савол</th><th>Курс</th><th>Дуруст</th><th>Хол</th><th>Амал</th></tr>
+{% for t in tests %}<tr>
+  <td>{{t.pk}}</td><td>{{t.question|truncatechars:45}}</td><td>{{t.course.title}}</td>
+  <td>{{t.get_correct_answer_display}}</td><td>{{t.score_points}}</td>
+  <td><form method="post" style="display:inline" onsubmit="return confirm('Ҳазф?')">{% csrf_token %}<input type="hidden" name="action" value="del"><input type="hidden" name="pk" value="{{t.pk}}"><button type="submit" class="btn-del">🗑</button></form></td>
+</tr>{% empty %}<tr><td colspan="6" style="text-align:center;color:var(--tl);">Тест нест</td></tr>{% endfor %}
+</table></div></div>{% endblock %}

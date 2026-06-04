@@ -1,0 +1,13 @@
+# MyCourse.tj Tajik translations
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Login"
+msgstr "Воридшавӣ"
+
+msgid "Logout"
+msgstr "Баромадан"
+
+msgid "Dashboard"
+msgstr "Кабинет"

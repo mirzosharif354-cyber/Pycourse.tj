@@ -1,0 +1,19 @@
+{% extends 'base.html' %}{% block title %}Мавзуъҳо — Admin{% endblock %}
+{% block content %}<div class="admin-wrap">
+{% with active='topics' %}{% include 'courses/admin_nav.html' %}{% endwith %}
+<div class="form-card"><h4>➕ Мавзуи нав</h4>
+<form method="post">{% csrf_token %}<input type="hidden" name="action" value="add">
+<div class="row2">
+  <div class="fg"><label>Курс</label><select name="cid" class="inp">{% for c in courses %}<option value="{{c.pk}}">{{c.title}}</option>{% endfor %}</select></div>
+  <div class="fg"><label>Унвон</label><input name="title" class="inp" placeholder="Мавзуи нав" required></div>
+</div>
+<div class="fg"><label>Тавсиф</label><input name="desc" class="inp" placeholder="Кӯтоҳ тавсиф..."></div>
+<button type="submit" class="btn btn-g btn-sm">➕ Илова</button>
+</form></div>
+<div class="card"><h3 style="font-size:15px;font-weight:800;margin-bottom:14px;">📖 Мавзуъҳо</h3>
+<table><tr><th>#</th><th>Унвон</th><th>Курс</th><th>Тавсиф</th><th>Амал</th></tr>
+{% for t in topics %}<tr>
+  <td>{{t.order}}</td><td>{{t.title}}</td><td>{{t.course.title}}</td><td>{{t.description|truncatechars:40}}</td>
+  <td><form method="post" style="display:inline" onsubmit="return confirm('Ҳазф?')">{% csrf_token %}<input type="hidden" name="action" value="del"><input type="hidden" name="pk" value="{{t.pk}}"><button type="submit" class="btn-del">🗑</button></form></td>
+</tr>{% empty %}<tr><td colspan="5" style="text-align:center;color:var(--tl);">Мавзуъ нест</td></tr>{% endfor %}
+</table></div></div>{% endblock %}

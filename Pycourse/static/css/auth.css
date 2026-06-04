@@ -1,0 +1,10 @@
+body{background:linear-gradient(150deg,#fff 40%,#e8f5e9 100%);}
+.auth-wrap{min-height:calc(100vh - 62px);display:flex;align-items:center;justify-content:center;padding:40px 20px;}
+.auth-card{background:#fff;border:1.5px solid var(--bd);border-radius:20px;padding:40px;width:100%;max-width:420px;box-shadow:0 8px 40px rgba(46,125,79,.10);}
+.auth-icon{font-size:40px;text-align:center;display:block;margin-bottom:8px;}
+.auth-title{font-size:22px;font-weight:900;text-align:center;margin-bottom:4px;}
+.auth-sub{font-size:13px;color:var(--tl);text-align:center;margin-bottom:26px;}
+.fg{margin-bottom:16px;}
+.fg label{display:block;font-size:12px;font-weight:700;color:var(--tm);margin-bottom:5px;}
+.fe{color:#c62828;font-size:11px;margin-top:3px;font-weight:600;}
+.demo-hint{font-size:11px;color:var(--tl);text-align:center;margin-top:10px;background:var(--gl);border-radius:7px;padding:7px;}

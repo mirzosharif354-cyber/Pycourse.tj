@@ -1,0 +1,27 @@
+:root{--g1:#4caf72;--g2:#2e7d4f;--ga:#00c853;--gl:#e8f5e9;--gs:#a8d5b5;--bd:#c8e6c9;--td:#1a2e1e;--tm:#3d5a42;--tl:#6b8f71;--bg:#f4fdf6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--td);}
+a{color:var(--g2);}
+.btn{display:inline-block;padding:8px 20px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;transition:all .18s;cursor:pointer;border:none;font-family:'Nunito',sans-serif;}
+.btn-g{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;}
+.btn-g:hover{opacity:.88;transform:translateY(-1px);}
+.btn-outline{border:2px solid var(--g1);color:var(--g2);background:transparent;}
+.btn-outline:hover{background:var(--gl);}
+.btn-sm{padding:6px 14px;font-size:13px;}
+.btn-red{background:#ffebee;color:#c62828;border:1.5px solid #ffcdd2;}
+.btn-block{display:block;text-align:center;width:100%;}
+.inp{width:100%;padding:11px 13px;border:1.5px solid var(--bd);border-radius:9px;font-family:'Nunito',sans-serif;font-size:14px;outline:none;transition:border .2s;background:#fafffe;}
+.inp:focus{border-color:var(--g1);box-shadow:0 0 0 3px rgba(76,175,114,.10);}
+.card{background:#fff;border:1.5px solid var(--bd);border-radius:14px;padding:22px;margin-bottom:16px;}
+.badge{display:inline-block;padding:2px 9px;border-radius:5px;font-size:11px;font-weight:700;}
+.badge-g{background:var(--gl);color:var(--g2);}
+.badge-y{background:#fff3e0;color:#e65100;}
+.badge-r{background:#ffebee;color:#c62828;}
+.alert{padding:11px 15px;border-radius:8px;font-weight:700;font-size:13px;margin-bottom:10px;}
+.alert-success{background:var(--gl);border:1.5px solid var(--gs);color:var(--g2);}
+.alert-error{background:#ffebee;border:1.5px solid #ffcdd2;color:#c62828;}
+table{width:100%;border-collapse:collapse;}
+th{font-size:11px;font-weight:800;color:var(--tl);text-align:left;padding:8px 11px;border-bottom:1.5px solid var(--bd);text-transform:uppercase;}
+td{font-size:13px;padding:10px 11px;border-bottom:1px solid #f0f7f1;font-weight:600;}
+tr:last-child td{border:none;}
+tr:hover td{background:var(--gl);}

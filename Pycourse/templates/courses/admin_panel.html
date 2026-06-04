@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Admin — MyCourse.tj{% endblock %}
+{% block content %}
+<div class="admin-wrap">
+  {% with active='dashboard' %}{% include 'courses/admin_nav.html' %}{% endwith %}
+  <div class="stats-grid">
+    <div class="s-card"><div class="n">{{total_students}}</div><div class="l">👥 Хонандагон</div></div>
+    <div class="s-card"><div class="n">{{total_courses}}</div><div class="l">📚 Курсҳо</div></div>
+    <div class="s-card"><div class="n">{{total_videos}}</div><div class="l">🎬 Видеоҳо</div></div>
+    <div class="s-card"><div class="n">{{total_tests}}</div><div class="l">📝 Тестҳо</div></div>
+    <div class="s-card"><div class="n">{{total_tasks}}</div><div class="l">💻 Вазифаҳо</div></div>
+    <div class="s-card"><div class="n">{{pending}}</div><div class="l">⏳ Интизор</div></div>
+  </div>
+  <div class="card">
+    <h3 style="font-size:15px;font-weight:800;margin-bottom:14px;">📬 Охирин вазифаҳо</h3>
+    <table><tr><th>Хонанда</th><th>Вазифа</th><th>Вақт</th><th>Ҳолат</th></tr>
+    {% for s in recent_subs %}<tr>
+      <td>{{s.user.get_full_name|default:s.user.username}}</td><td>{{s.task.title}}</td>
+      <td>{{s.submitted_at|timesince}} пеш</td>
+      <td><span class="badge {% if s.status == 'pending' %}badge-y{% elif s.status == 'approved' %}badge-g{% else %}badge-r{% endif %}">{{s.get_status_display}}</span></td>
+    </tr>{% empty %}<tr><td colspan="4" style="text-align:center;color:var(--tl);">Вазифаи нав нест</td></tr>{% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <h3 style="font-size:15px;font-weight:800;margin-bottom:14px;">🏆 Беҳтарин хонандагон</h3>
+    <table><tr><th>#</th><th>Ном</th><th>Хол</th></tr>
+    {% for s in top_students %}<tr><td>{{forloop.counter}}</td><td>{{s.get_full_name|default:s.username}}</td><td>{{s.score}}</td></tr>{% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

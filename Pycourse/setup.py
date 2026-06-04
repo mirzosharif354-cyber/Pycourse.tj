@@ -1,0 +1,28 @@
+import os, subprocess
+def r(cmd): print(f"  ▶ {cmd}"); subprocess.run(cmd, shell=True)
+print("\n" + "="*50)
+print("  🎓  MyCourse.tj — Насби автоматӣ")
+print("="*50)
+print("\n📦 Насби Django...")
+r("pip install Django>=4.2 Pillow")
+print("\n🗄  Миграция...")
+r("python manage.py makemigrations users courses chat")
+r("python manage.py migrate")
+print("\n📂 Маълумоти намоишӣ...")
+r("python manage.py loaddata courses/fixtures/initial_data.json")
+print("\n👤 Администратор...")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mycourse.settings')
+import django; django.setup()
+from django.contrib.auth import get_user_model
+User = get_user_model()
+if not User.objects.filter(username='admin').exists():
+    User.objects.create_superuser(username='admin', email='admin@mycourse.tj', password='admin123', first_name='Admin', role='admin')
+    print("  ✅ admin / admin123")
+else:
+    print("  ℹ️  Аллакай мавҷуд аст")
+r("python manage.py collectstatic --noinput")
+print("\n" + "="*50)
+print("  ✅  Тамом!  python manage.py runserver")
+print("  🌐  http://127.0.0.1:8000")
+print("  🔑  admin / admin123")
+print("="*50 + "\n")

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}{% block title %}Баррасӣ — Admin{% endblock %}
+{% block content %}<div class="admin-wrap">
+{% with active='submissions' %}{% include 'courses/admin_nav.html' %}{% endwith %}
+<div class="card"><h3 style="font-size:15px;font-weight:800;margin-bottom:14px;">📬 Вазифаҳои фиристодашуда</h3>
+<table><tr><th>Хонанда</th><th>Вазифа</th><th>Код</th><th>Вақт</th><th>Ҳолат</th><th>Амал</th></tr>
+{% for s in subs %}<tr>
+  <td>{{s.user.get_full_name|default:s.user.username}}</td>
+  <td>{{s.task.title}}</td>
+  <td><div class="code-pre">{{s.code|truncatechars:60}}</div></td>
+  <td>{{s.submitted_at|timesince}} пеш</td>
+  <td><span class="badge {% if s.status == 'pending' %}badge-y{% elif s.status == 'approved' %}badge-g{% else %}badge-r{% endif %}">{{s.get_status_display}}</span></td>
+  <td>{% if s.status == 'pending' %}
+    <form method="post" style="display:inline">{% csrf_token %}<input type="hidden" name="pk" value="{{s.pk}}"><input type="hidden" name="action" value="approve"><input type="hidden" name="fb" value="Баракалла!"><button type="submit" class="btn-ok2">✅</button></form>
+    <form method="post" style="display:inline">{% csrf_token %}<input type="hidden" name="pk" value="{{s.pk}}"><input type="hidden" name="action" value="reject"><input type="hidden" name="fb" value="Аз нав кӯшиш кун."><button type="submit" class="btn-del">❌</button></form>
+  {% else %}<span style="font-size:11px;color:var(--tl);">{{s.feedback|truncatechars:20}}</span>{% endif %}</td>
+</tr>{% empty %}<tr><td colspan="6" style="text-align:center;color:var(--tl);">Вазифаи нав нест</td></tr>{% endfor %}
+</table></div></div>{% endblock %}

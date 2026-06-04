@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}{{course.title}} — MyCourse.tj{% endblock %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/course.css' %}">{% endblock %}
+{% block content %}
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sb-logo"><h3>{{course.icon}} {{course.title}}</h3></div>
+    <div class="sb-prog">
+      <div class="prog-bar" style="height:7px;background:var(--gl);border-radius:4px;"><div class="prog-fill" style="width:{{progress}}%;height:100%;background:linear-gradient(90deg,var(--g1),var(--ga));border-radius:4px;"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--tl);margin-top:4px;"><span>Пешрафт</span><span>{{progress}}%</span></div>
+    </div>
+    <span class="sb-lbl">Мазмун</span>
+    <button class="sb-btn active" onclick="showPanel('videos',this)">🎬 Видеодарсҳо</button>
+    <button class="sb-btn" onclick="showPanel('topics',this)">📚 Мавзуъҳо</button>
+    <button class="sb-btn" onclick="showPanel('tests',this)">📝 Тестҳо</button>
+    <button class="sb-btn" onclick="showPanel('tasks',this)">💻 Вазифаҳо</button>
+    <span class="sb-lbl">Дигар</span>
+    <a href="{% url 'chat' %}" class="sb-btn">💬 Чат</a>
+    <a href="{% url 'rating' %}" class="sb-btn">🏆 Рейтинг</a>
+    <a href="{% url 'dashboard' %}" class="sb-btn">← Кабинет</a>
+  </aside>
+  <div class="main-area">
+    <div class="main-bar">
+      <h2 id="panel-title">🎬 Видеодарсҳо</h2>
+      <span style="font-size:13px;font-weight:700;color:var(--g2);">⭐ {{user.score}} хол</span>
+    </div>
+    <div class="content">
+      <div class="panel active" id="panel-videos">
+        <div class="video-grid">
+          {% for v in videos %}
+          <div class="video-card" onclick="openVideo({{v.pk}},'{{v.title|escapejs}}','{{v.description|escapejs}}','{{v.video_url|escapejs}}')">
+            <div class="video-thumb">🎬<div class="play-btn">▶</div></div>
+            <div class="video-info">
+              <h4>Дарс {{v.order}}: {{v.title}}</h4>
+              <div class="video-meta">⏱ {{v.duration_minutes}} дақ</div>
+              <span class="video-status {% if v.pk in watched %}vs-done{% else %}vs-new{% endif %}">{% if v.pk in watched %}✅ Дида шуд{% else %}🆕 Нав{% endif %}</span>
+            </div>
+          </div>
+          {% empty %}<p style="color:var(--tl);">Видеоҳо нестанд.</p>{% endfor %}
+        </div>
+      </div>
+      <div class="panel" id="panel-topics">
+        <div class="topic-list">
+          {% for t in topics %}
+          <div class="topic-item">
+            <div class="topic-num">{{t.order}}</div>
+            <div><div style="font-size:14px;font-weight:700;">{{t.title}}</div><div style="font-size:11px;color:var(--tl);">{{t.description}}</div></div>
+          </div>
+          {% empty %}<p style="color:var(--tl);">Мавзуъҳо нестанд.</p>{% endfor %}
+        </div>
+      </div>
+      <div class="panel" id="panel-tests">
+        {% for t in tests %}
+        <div class="test-card" id="tc{{t.pk}}">
+          <div class="test-q">❓ {{forloop.counter}}. {{t.question}}</div>
+          <div class="opts">
+            <button class="opt-btn" onclick="submitTest({{t.pk}},'a',this)" {% if t.pk in answered %}disabled{% endif %}>А. {{t.option_a}}</button>
+            <button class="opt-btn" onclick="submitTest({{t.pk}},'b',this)" {% if t.pk in answered %}disabled{% endif %}>Б. {{t.option_b}}</button>
+            {% if t.option_c %}<button class="opt-btn" onclick="submitTest({{t.pk}},'c',this)" {% if t.pk in answered %}disabled{% endif %}>В. {{t.option_c}}</button>{% endif %}
+            {% if t.option_d %}<button class="opt-btn" onclick="submitTest({{t.pk}},'d',this)" {% if t.pk in answered %}disabled{% endif %}>Г. {{t.option_d}}</button>{% endif %}
+          </div>
+          <div class="test-result" id="tr{{t.pk}}"></div>
+        </div>
+        {% empty %}<p style="color:var(--tl);">Тестҳо нестанд.</p>{% endfor %}
+      </div>
+      <div class="panel" id="panel-tasks">
+        {% for t in tasks %}
+        <div class="task-card">
+          <h4>{{t.title}} <span style="font-size:12px;color:var(--g2);">(+{{t.score_points}} хол)</span></h4>
+          <p>{{t.description}}</p>
+          <textarea class="code-editor" id="cd{{t.pk}}">{{t.starter_code}}</textarea>
+          <div style="margin-top:9px;"><button class="btn btn-g btn-sm" onclick="submitTask({{t.pk}})">📤 Фиристодан</button></div>
+          <div class="task-msg" id="tm{{t.pk}}"></div>
+        </div>
+        {% empty %}<p style="color:var(--tl);">Вазифаҳо нестанд.</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-ov" id="video-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="modal-title" style="margin-bottom:12px;font-size:16px;font-weight:800;"></h3>
+    <div class="video-player" id="video-player"><span style="font-size:30px;">🎬</span><span>Видео бор мешавад...</span></div>
+    <p id="modal-desc" style="font-size:13px;color:var(--tl);margin-bottom:12px;"></p>
+    <button id="watch-btn" class="btn btn-g" onclick="markWatched()">✅ Тамомшуд (+5 хол)</button>
+  </div>
+</div>
+{% endblock %}
+{% load static %}
+{% block extra_js %}
+<script src="{% static 'js/course.js' %}"></script>
+{% endblock %}

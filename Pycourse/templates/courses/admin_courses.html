@@ -1,0 +1,24 @@
+{% extends 'base.html' %}{% block title %}Курсҳо — Admin{% endblock %}
+{% block content %}<div class="admin-wrap">
+{% with active='courses' %}{% include 'courses/admin_nav.html' %}{% endwith %}
+<div class="form-card"><h4>➕ Курси нав</h4>
+<form method="post">{% csrf_token %}<input type="hidden" name="action" value="add">
+<div class="row2">
+  <div class="fg"><label>Ном</label><input name="title" class="inp" placeholder="Python аз сифр" required></div>
+  <div class="fg"><label>Категория</label><select name="category" class="inp"><option value="python">🐍 Python</option><option value="cyber">🔐 Кибербезопасность</option><option value="ai">🤖 AI</option></select></div>
+</div>
+<div class="row2">
+  <div class="fg"><label>Нишона</label><input name="icon" class="inp" value="📚" maxlength="5"></div>
+  <div class="fg"><label>Соат</label><input name="hours" class="inp" type="number" value="0" min="0"></div>
+</div>
+<div class="fg"><label>Тавсиф</label><textarea name="description" class="inp"></textarea></div>
+<button type="submit" class="btn btn-g btn-sm">➕ Илова</button>
+</form></div>
+<div class="card"><h3 style="font-size:15px;font-weight:800;margin-bottom:14px;">📚 Курсҳо</h3>
+<table><tr><th>#</th><th>Ном</th><th>Категория</th><th>Соат</th><th>Видео</th><th>Тест</th><th>Амал</th></tr>
+{% for c in courses %}<tr>
+  <td>{{c.pk}}</td><td>{{c.icon}} {{c.title}}</td><td>{{c.get_category_display}}</td>
+  <td>{{c.duration_hours}}</td><td>{{c.total_videos}}</td><td>{{c.total_tests}}</td>
+  <td><form method="post" style="display:inline" onsubmit="return confirm('Ҳазф?')">{% csrf_token %}<input type="hidden" name="action" value="del"><input type="hidden" name="pk" value="{{c.pk}}"><button type="submit" class="btn-del">🗑</button></form></td>
+</tr>{% empty %}<tr><td colspan="7" style="text-align:center;color:var(--tl);">Курс нест</td></tr>{% endfor %}
+</table></div></div>{% endblock %}

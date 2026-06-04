@@ -1,0 +1,21 @@
+{% extends 'base.html' %}{% block title %}Вазифаҳо — Admin{% endblock %}
+{% block content %}<div class="admin-wrap">
+{% with active='tasks' %}{% include 'courses/admin_nav.html' %}{% endwith %}
+<div class="form-card"><h4>➕ Вазифаи нав</h4>
+<form method="post">{% csrf_token %}<input type="hidden" name="action" value="add">
+<div class="row2">
+  <div class="fg"><label>Курс</label><select name="cid" class="inp">{% for c in courses %}<option value="{{c.pk}}">{{c.title}}</option>{% endfor %}</select></div>
+  <div class="fg"><label>Холҳо</label><input name="pts" class="inp" type="number" value="50" min="1"></div>
+</div>
+<div class="fg"><label>Унвон</label><input name="title" class="inp" placeholder="Вазифа 1: ..." required></div>
+<div class="fg"><label>Тавсиф</label><textarea name="desc" class="inp"></textarea></div>
+<div class="fg"><label>Коди ибтидоӣ</label><textarea name="code" class="inp" style="font-family:monospace;"></textarea></div>
+<button type="submit" class="btn btn-g btn-sm">➕ Илова</button>
+</form></div>
+<div class="card"><h3 style="font-size:15px;font-weight:800;margin-bottom:14px;">💻 Вазифаҳо</h3>
+<table><tr><th>#</th><th>Унвон</th><th>Курс</th><th>Хол</th><th>Амал</th></tr>
+{% for t in tasks %}<tr>
+  <td>{{t.order}}</td><td>{{t.title}}</td><td>{{t.course.title}}</td><td>{{t.score_points}}</td>
+  <td><form method="post" style="display:inline" onsubmit="return confirm('Ҳазф?')">{% csrf_token %}<input type="hidden" name="action" value="del"><input type="hidden" name="pk" value="{{t.pk}}"><button type="submit" class="btn-del">🗑</button></form></td>
+</tr>{% empty %}<tr><td colspan="5" style="text-align:center;color:var(--tl);">Вазифа нест</td></tr>{% endfor %}
+</table></div></div>{% endblock %}

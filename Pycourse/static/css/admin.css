@@ -1,0 +1,21 @@
+.admin-wrap{max-width:1080px;margin:0 auto;padding:26px 22px;}
+.admin-header{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;border-radius:16px;padding:20px 26px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;}
+.admin-header h2{font-size:20px;font-weight:900;}
+.admin-nav{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px;}
+.admin-nav a{padding:7px 14px;border:1.5px solid var(--bd);border-radius:7px;background:#fff;color:var(--tm);text-decoration:none;font-weight:700;font-size:12px;transition:all .15s;}
+.admin-nav a:hover,.admin-nav a.active{background:var(--g1);color:#fff;border-color:var(--g1);}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;}
+.s-card{background:#fff;border:1.5px solid var(--bd);border-radius:12px;padding:16px;text-align:center;}
+.s-card .n{font-size:24px;font-weight:900;color:var(--g2);}
+.s-card .l{font-size:11px;color:var(--tl);font-weight:700;margin-top:2px;}
+.form-card{background:var(--bg);border:1.5px solid var(--bd);border-radius:12px;padding:18px;margin-bottom:18px;}
+.form-card h4{font-size:14px;font-weight:800;margin-bottom:12px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fg{margin-bottom:10px;}
+.fg label{display:block;font-size:11px;font-weight:700;color:var(--tm);margin-bottom:4px;}
+.fg input,.fg select,.fg textarea{width:100%;padding:9px 11px;border:1.5px solid var(--bd);border-radius:7px;font-family:'Nunito',sans-serif;font-size:13px;outline:none;background:#fff;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--g1);}
+.fg textarea{min-height:60px;resize:vertical;}
+.btn-del{padding:4px 8px;background:#ffebee;border:1.5px solid #ffcdd2;border-radius:5px;color:#c62828;font-size:11px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;}
+.btn-ok2{padding:4px 8px;background:var(--gl);border:1.5px solid var(--gs);border-radius:5px;color:var(--g2);font-size:11px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;margin-right:3px;}
+.code-pre{background:#1a2e1e;color:#a8d5b5;padding:7px 10px;border-radius:6px;font-family:'Fira Code',monospace;font-size:11px;max-height:80px;overflow-y:auto;white-space:pre-wrap;}

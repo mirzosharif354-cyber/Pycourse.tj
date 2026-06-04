@@ -1,0 +1,25 @@
+{% extends 'base.html' %}{% block title %}Видеоҳо — Admin{% endblock %}
+{% block content %}<div class="admin-wrap">
+{% with active='videos' %}{% include 'courses/admin_nav.html' %}{% endwith %}
+<div class="form-card"><h4>➕ Видеои нав</h4>
+<form method="post" enctype="multipart/form-data">{% csrf_token %}<input type="hidden" name="action" value="add">
+<div class="row2">
+  <div class="fg"><label>Курс</label><select name="cid" class="inp">{% for c in courses %}<option value="{{c.pk}}">{{c.title}}</option>{% endfor %}</select></div>
+  <div class="fg"><label>Унвон</label><input name="title" class="inp" placeholder="Дарс 1: Python чист?" required></div>
+</div>
+<div class="row2">
+  <div class="fg"><label>Давомнокӣ (дақ)</label><input name="dur" class="inp" type="number" value="0" min="0"></div>
+  <div class="fg"><label>URL YouTube</label><input name="url" class="inp" placeholder="https://youtube.com/embed/..."></div>
+</div>
+<div class="fg"><label>Файли видео</label><input type="file" name="file" accept="video/*"></div>
+<div class="fg"><label>Тавсиф</label><textarea name="desc" class="inp"></textarea></div>
+<button type="submit" class="btn btn-g btn-sm">➕ Илова</button>
+</form></div>
+<div class="card"><h3 style="font-size:15px;font-weight:800;margin-bottom:14px;">🎬 Видеоҳо</h3>
+<table><tr><th>#</th><th>Ном</th><th>Курс</th><th>Дақ</th><th>URL/Файл</th><th>Амал</th></tr>
+{% for v in videos %}<tr>
+  <td>{{v.order}}</td><td>{{v.title}}</td><td>{{v.course.title}}</td><td>{{v.duration_minutes}}</td>
+  <td>{% if v.video_url %}<a href="{{v.video_url}}" target="_blank" style="font-size:11px;">🔗</a>{% elif v.video_file %}📁{% else %}—{% endif %}</td>
+  <td><form method="post" style="display:inline" onsubmit="return confirm('Ҳазф?')">{% csrf_token %}<input type="hidden" name="action" value="del"><input type="hidden" name="pk" value="{{v.pk}}"><button type="submit" class="btn-del">🗑</button></form></td>
+</tr>{% empty %}<tr><td colspan="6" style="text-align:center;color:var(--tl);">Видео нест</td></tr>{% endfor %}
+</table></div></div>{% endblock %}

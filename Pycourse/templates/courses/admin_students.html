@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block title %}Хонандагон — Admin{% endblock %}
+{% block content %}<div class="admin-wrap">
+{% with active='students' %}{% include 'courses/admin_nav.html' %}{% endwith %}
+<div class="card"><h3 style="font-size:15px;font-weight:800;margin-bottom:14px;">👥 Ҳамаи хонандагон</h3>
+<table><tr><th>#</th><th>Ном</th><th>Логин</th><th>Хол</th><th>Фаъол</th><th>Амал</th></tr>
+{% for s in students %}<tr>
+  <td>{{forloop.counter}}</td><td>{{s.get_full_name|default:"—"}}</td><td>{{s.username}}</td><td><b>{{s.score}}</b></td>
+  <td>{% if s.is_active %}✅{% else %}❌{% endif %}</td>
+  <td>
+    <form method="post" style="display:inline">{% csrf_token %}<input type="hidden" name="uid" value="{{s.pk}}"><input type="hidden" name="action" value="toggle_active"><button type="submit" class="btn-ok2">{% if s.is_active %}🚫{% else %}✅{% endif %}</button></form>
+    <form method="post" style="display:inline" onsubmit="return confirm('Хол сифр шавад?')">{% csrf_token %}<input type="hidden" name="uid" value="{{s.pk}}"><input type="hidden" name="action" value="reset_score"><button type="submit" class="btn-del">0️⃣</button></form>
+  </td>
+</tr>{% empty %}<tr><td colspan="6" style="text-align:center;color:var(--tl);">Хонанда нест</td></tr>{% endfor %}
+</table></div></div>{% endblock %}

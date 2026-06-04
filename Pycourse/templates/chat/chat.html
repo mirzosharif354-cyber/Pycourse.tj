@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Чат — MyCourse.tj{% endblock %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/chat.css' %}">{% endblock %}
+{% block content %}
+<div class="chat-layout">
+  <div class="rooms-sb">
+    <h3>💬 Чатҳо</h3>
+    <div class="rooms-list">
+      {% for r in rooms %}
+      <a href="{% url 'chat_room' r.slug %}" class="room-item {% if r.slug == room.slug %}active{% endif %}">
+        <span class="ri-icon">{{r.icon}}</span>
+        <div><div class="ri-name">{{r.name}}</div></div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="chat-main">
+    <div class="chat-topbar">
+      <div><div class="chat-room-name">{{room.icon}} {{room.name}}</div><div class="chat-room-desc">{{room.description}}</div></div>
+      <div class="online-pill"><span class="live-dot"></span>Онлайн</div>
+    </div>
+    <div class="msgs-area" id="msgs-area">
+      <div class="sys-msg">🎉 Хуш омадед ба {{room.name}}!</div>
+      {% for m in messages %}
+      <div class="msg-group {% if m.user == user %}me{% else %}them{% endif %}">
+        <div class="msg-av">👤</div>
+        <div class="msg-body">
+          <div class="msg-name">{{m.user.get_full_name|default:m.user.username}}</div>
+          <div class="bubble">{{m.content}}</div>
+          <div class="msg-time">{{m.created_at|time:"H:i"}}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div style="padding:0 12px;background:#fff;">
+      <div class="emoji-picker" id="emoji-picker">
+       <div class="emoji-picker" id="emoji-picker">
+    <span onclick="addEmoji('🙂')">🙂</span>
+    <span onclick="addEmoji('👍')">👍</span>
+    <span onclick="addEmoji('🔥')">🔥</span>
+    <span onclick="addEmoji('✅')">✅</span>
+    <span onclick="addEmoji('❓')">❓</span>
+    <span onclick="addEmoji('💡')">💡</span>
+    <span onclick="addEmoji('🚀')">🚀</span>
+    <span onclick="addEmoji('🤓')">🤓</span>
+    <span onclick="addEmoji('🙏')">🙏</span>
+    <span onclick="addEmoji('❤️')">❤️</span>
+    <span onclick="addEmoji('🎉')">🎉</span>
+    <span onclick="addEmoji('📚')">📚</span>
+    <span onclick="addEmoji('💻')">💻</span>
+    <span onclick="addEmoji('🖥')">🖥</span>
+    <span onclick="addEmoji('🔒')">🔒</span>
+    <span onclick="addEmoji('⭐')">⭐</span>
+</div>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <div class="input-row">
+        <button class="emoji-toggle" onclick="toggleEmoji()">😊</button>
+        <textarea class="msg-textarea" id="msg-input" placeholder="Паём нависед..." rows="1"
+          onkeypress="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"
+          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,90)+'px'"></textarea>
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/chat.js' %}"></script>
+<script>
+initChat('{{room.slug}}', {% if messages %}{{messages.last.pk}}{% else %}0{% endif %});
+</script>
+{% endblock %}

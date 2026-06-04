@@ -1,0 +1,18 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+<div class="admin-header">
+  <div><h2>⚙️ Панели Администратор</h2><p>MyCourse.tj</p></div>
+  <span style="font-size:13px;opacity:.85;">{{user.get_full_name|default:user.username}}</span>
+</div>
+<div class="admin-nav">
+  <a href="{% url 'admin_panel' %}" {% if active == 'dashboard' %}class="active"{% endif %}>📊 Дашборд</a>
+  <a href="{% url 'admin_students' %}" {% if active == 'students' %}class="active"{% endif %}>👥 Хонандагон</a>
+  <a href="{% url 'admin_courses' %}" {% if active == 'courses' %}class="active"{% endif %}>📚 Курсҳо</a>
+  <a href="{% url 'admin_videos' %}" {% if active == 'videos' %}class="active"{% endif %}>🎬 Видеоҳо</a>
+  <a href="{% url 'admin_topics' %}" {% if active == 'topics' %}class="active"{% endif %}>📖 Мавзуъҳо</a>
+  <a href="{% url 'admin_tests' %}" {% if active == 'tests' %}class="active"{% endif %}>📝 Тестҳо</a>
+  <a href="{% url 'admin_tasks' %}" {% if active == 'tasks' %}class="active"{% endif %}>💻 Вазифаҳо</a>
+  <a href="{% url 'admin_submissions' %}" {% if active == 'submissions' %}class="active"{% endif %}>📬 Баррасӣ</a>
+  <a href="{% url 'chat' %}">💬 Чат</a>
+  <a href="{% url 'rating' %}">🏆 Рейтинг</a>
+</div>

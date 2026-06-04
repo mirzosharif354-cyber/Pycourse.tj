@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Рейтинг — MyCourse.tj{% endblock %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/rating.css' %}">{% endblock %}
+{% block content %}
+<div class="rating-wrap">
+  <h1>🏆 <span>Рейтинги</span> хонандагон</h1>
+  <p class="rating-sub">Ҷадвали рақобати MyCourse.tj</p>
+  {% if students|length >= 3 %}
+  <div class="podium">
+    {% with s=students.1 %}<div class="p-card silver" style="margin-bottom:18px;">
+      <span class="p-medal">🥈</span><div class="p-rank">2</div>
+      <div class="p-av">👤</div><div class="p-name">{{s.get_full_name|default:s.username}}</div>
+      <div class="p-score">{{s.score}}</div><div class="p-lbl">хол</div>
+    </div>{% endwith %}
+    {% with s=students.0 %}<div class="p-card gold">
+      <span class="p-medal">🥇</span><div class="p-rank">1</div>
+      <div class="p-av">👤</div><div class="p-name">{{s.get_full_name|default:s.username}}</div>
+      <div class="p-score">{{s.score}}</div><div class="p-lbl">хол</div>
+    </div>{% endwith %}
+    {% with s=students.2 %}<div class="p-card bronze" style="margin-bottom:36px;">
+      <span class="p-medal">🥉</span><div class="p-rank">3</div>
+      <div class="p-av">👤</div><div class="p-name">{{s.get_full_name|default:s.username}}</div>
+      <div class="p-score">{{s.score}}</div><div class="p-lbl">хол</div>
+    </div>{% endwith %}
+  </div>
+  {% endif %}
+  <div class="lb-wrap">
+    <div class="lb-head"><div>#</div><div>Хонанда</div><div>Холҳо</div><div>Медал</div></div>
+    {% for s in students %}
+    <div class="lb-row {% if user.is_authenticated and s == user %}me{% endif %}">
+      <div class="lb-rank">{% if forloop.counter == 1 %}🥇{% elif forloop.counter == 2 %}🥈{% elif forloop.counter == 3 %}🥉{% else %}{{forloop.counter}}{% endif %}</div>
+      <div class="lb-user"><div class="lb-av">👤</div><div class="lb-name">{{s.get_full_name|default:s.username}}{% if user.is_authenticated and s == user %} <span style="color:var(--g1);font-size:11px;">(Шумо)</span>{% endif %}</div></div>
+      <div class="lb-score">{{s.score}}</div>
+      <div>{% if forloop.counter == 1 %}🥇{% elif forloop.counter == 2 %}🥈{% elif forloop.counter == 3 %}🥉{% else %}—{% endif %}</div>
+    </div>
+    {% empty %}<div style="padding:24px;text-align:center;color:var(--tl);">Ҳанӯз хонандагон нестанд.</div>{% endfor %}
+  </div>
+</div>
+{% endblock %}
